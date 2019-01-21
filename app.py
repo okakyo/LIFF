@@ -15,7 +15,6 @@ bootstrap = Bootstrap(app)
 def do_get():
         return render_template('index.html')
 
-@app.route('/profile',method='POST')
 
 if __name__ == '__main__':
         app.debug = True

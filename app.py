@@ -44,4 +44,4 @@ def handle_message(event):
 
 
 if __name__ == "__main__":
-    app.run(debug=True,host="https://practiceliff.herokuapp.com/",port=3241)
+    app.run(debug=True)

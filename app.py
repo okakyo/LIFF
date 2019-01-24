@@ -1,4 +1,4 @@
-from flask import Flask, request, abort
+from flask import Flask, request, abort,render_template
 import requests 
 
 from linebot import (
@@ -16,8 +16,10 @@ app = Flask(__name__)
 line_bot_api = LineBotApi('5BVERrVLauQDqd89tFyf4Nz+/guwGgCpPXT52/LHjFYVsZBXs/BRKd6ZqiGcn+13/fXmJqWgqtYlBWP7Qw+2ltzfAyHIj1XnDLTIyUEXyG4+3wX/vN5NsoLVpPFYkY1r6Y5qj9zGcv7wvWZhAZXpqVGUYhWQfeY8sLGRXgo3xvw=')
 handler = WebhookHandler('fa813b2f660166081a7f2e14f9292542')
 
-
-@app.route("/", methods=['POST'])
+@app.route('/')
+def index():
+    return render_template('Hello World!')
+@app.route("/callback", methods=['POST'])
 def callback():
     # get X-Line-Signature header value
     signature = request.headers['X-Line-Signature']

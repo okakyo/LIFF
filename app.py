@@ -12,21 +12,17 @@ from linebot.models import (
 
 app = Flask(__name__)
 
-line_bot_api = LineBotApi('YOUR_CHANNEL_ACCESS_TOKEN')
-handler = WebhookHandler('YOUR_CHANNEL_SECRET')
+line_bot_api = LineBotApi('5BVERrVLauQDqd89tFyf4Nz+/guwGgCpPXT52/LHjFYVsZBXs/BRKd6ZqiGcn+13/fXmJqWgqtYlBWP7Qw+2ltzfAyHIj1XnDLTIyUEXyG4+3wX/vN5NsoLVpPFYkY1r6Y5qj9zGcv7wvWZhAZXpqVGUYhWQfeY8sLGRXgo3xvw=')
+handler = WebhookHandler('fa813b2f660166081a7f2e14f9292542')
 
-@app.route("/")
-def hello_world():
-    return "hello world!"
 
-@app.route("/call", methods=['POST'])
+@app.route("/", methods=['POST'])
 def callback():
     # get X-Line-Signature header value
     signature = request.headers['X-Line-Signature']
 
     # get request body as text
     body = request.get_data(as_text=True)
-    app.logger.info("Request body: " + body)
 
     # handle webhook body
     try:
@@ -45,4 +41,4 @@ def handle_message(event):
 
 
 if __name__ == "__main__":
-    app.run(debug=True,host="localhost",port=12345)
+    app.run()

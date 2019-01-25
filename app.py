@@ -1,6 +1,6 @@
 from flask import Flask, request, abort,render_template
 import requests 
-
+import os
 from linebot import (
     LineBotApi, WebhookHandler
 )
@@ -44,4 +44,4 @@ def handle_message(event):
         TextSendMessage(text=event.message.text))
 
 if __name__ == "__main__":
-    app.run()
+    app.run(host='0.0.0.0',port=int(os.getenv("PORT")))

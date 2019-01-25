@@ -18,7 +18,8 @@ handler = WebhookHandler('fa813b2f660166081a7f2e14f9292542')
 
 @app.route('/')
 def index():
-    return render_template('Hello World!')
+    return 'Hello World!'
+
 @app.route("/callback", methods=['POST'])
 def callback():
     # get X-Line-Signature header value

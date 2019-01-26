@@ -1,6 +1,7 @@
 from flask import Flask, request, abort
-import os
-
+import os,json
+import requests
+from bs4 import BeautifulSoup
 from linebot import (
     LineBotApi, WebhookHandler
 )
@@ -19,6 +20,11 @@ YOUR_CHANNEL_SECRET = os.environ["YOUR_CHANNEL_SECRET"]
 
 line_bot_api = LineBotApi(YOUR_CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(YOUR_CHANNEL_SECRET)
+
+#データを取得して、URLを返還する。その後、
+def get_data():
+    pass
+
 
 @app.route("/")
 def hello_world():
@@ -43,9 +49,12 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
+    text=event.message.text
+    if text=='入部したい！':
+        text='また来年や！'
     line_bot_api.reply_message(
         event.reply_token,
-        TextSendMessage(text=event.message.text))
+        TextSendMessage(text=text))
 
 if __name__ == "__main__":
 #    app.run()

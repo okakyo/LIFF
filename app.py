@@ -1,4 +1,4 @@
-from flask import Flask, request, abort
+from flask import Flask, request, abort,render_template
 import os,json
 import requests
 from bs4 import BeautifulSoup
@@ -28,7 +28,7 @@ def get_data():
 
 @app.route("/")
 def hello_world():
-    return "hello world!"
+    return render_template('index.html')
 
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -37,7 +37,6 @@ def callback():
 
     # get request body as text
     body = request.get_data(as_text=True)
-    app.logger.info("Request body: " + body)
 
     # handle webhook body
     try:
@@ -52,7 +51,6 @@ def handle_message(event):
     text=event.MessageEvent.text
     if '入部したい' in text:
         text='また来年や！'
-    print(text)
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text=text))

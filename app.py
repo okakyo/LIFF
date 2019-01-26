@@ -49,9 +49,10 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    text=event.message.text
-    if text=='入部したい':
+    text=event.MessageEvent.text
+    if '入部したい' in text:
         text='また来年や！'
+    print(text)
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text=text))

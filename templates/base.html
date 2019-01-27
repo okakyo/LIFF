@@ -8,8 +8,22 @@
 </head>
 <body>
     <header>
-        {% block header %}{% endblock %}
-    <header>
-    {%block content%}{% endblock %}
+        <div>
+            <div>
+                <h1>{% block title %}{% endblock %}</h1>
+            </div>
+            <div>
+                <nav>
+                    <li>あ</li>
+                    <li>い</li>
+                    <li>う</li>
+                    <li>え</li>
+                    <li>お</li>
+                </nav>
+            </div>
+        </div>
+    </header>
+    {%block content%}
+    {% endblock %}
 </body>
 </html>

@@ -10,6 +10,7 @@ from linebot.exceptions import (
 )
 from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage,
+
 )
 
 app = Flask(__name__)
@@ -22,14 +23,27 @@ line_bot_api = LineBotApi(YOUR_CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(YOUR_CHANNEL_SECRET)
 
 #データを取得して、URLを返還する。その後、
-def get_data():
-    pass
+def AnswerText(text):
+    url=['','']
+    # 0:質問用のURL、1: 入部登録用のURL 
+    answer='スイマセン.こちらからは答えられません.'
+    if '入部' and '質問' in text:
+      answer='質問こちらから.'+url[0]+'<br>また,入会はこちらから登録をお願いします.'+url[1]
+    elif '入部' in text:
+        answer='こちらから登録をお願いします.'+ url[1]
+    elif '質問' in text:
+        answer='質問はこちらからお願いします。'+url[0]
+    return answer
 
 
 @app.route("/")
 def hello_world():
     return render_template('index.html')
 
+@app.route("/reserve")
+def reserve():
+    return render_template('reserve.html')
+    
 @app.route("/callback", methods=['POST'])
 def callback():
     # get X-Line-Signature header value
@@ -49,8 +63,7 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     text=event.MessageEvent.text
-    if '入部したい' in text:
-        text='また来年や！'
+    text=AnswerText(text)
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text=text))

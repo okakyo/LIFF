@@ -1,18 +1,18 @@
 {%extends 'base.html' %}
-
-{% block header %}
+{% block title %}
+     Controller
+{% endblock %}
+{%block content%}
+<div>
     <div>
-        <div>
-            <h1>Hello LIFF</h1>
-        </div>
-        <div>
-            <nav>
-                <li>あ</li>
-                <li>い</li>
-                <li>う</li>
-                <li>え</li>
-                <li>お</li>
-            </nav>
-        </div>
+        <table>
+            <thead>
+                {% for name in names %}
+                <th>{% name %}</th>
+                {%endfor%}
+            </thead>
+            <tbody></tbody>
+        </table>
     </div>
+</div>
 {% endblock %}

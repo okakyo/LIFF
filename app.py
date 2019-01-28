@@ -24,7 +24,7 @@ handler = WebhookHandler(YOUR_CHANNEL_SECRET)
 
 #データを取得して、URLを返還する。その後、
 def AnswerText(text):
-    url=['','']
+    url=['a','b']
     # 0:質問用のURL、1: 入部登録用のURL 
     answer='スイマセン.こちらからは答えられません.'
     if '入部' and '質問' in text:
@@ -40,10 +40,6 @@ def AnswerText(text):
 def hello_world():
     return render_template('index.html')
 
-@app.route("/reserve")
-def reserve():
-    return render_template('reserve.html')
-    
 @app.route("/callback", methods=['POST'])
 def callback():
     # get X-Line-Signature header value

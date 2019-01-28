@@ -33,6 +33,8 @@ def AnswerText(text):
         answer+='質問はこちらからお願いします。'+url[0]
     if 'ホーム' in text:
         answer+='ホームページはこちらからお願いします。'+url[2]
+    if 'DENX' in text:
+        answer+='DENXはこちら'+url[3]
     else:
         answer='すいません、お答えできません。'
     return answer

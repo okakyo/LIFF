@@ -28,13 +28,13 @@ def AnswerText(text):
     # 0:質問用のURL、1: 入部登録用のURL 2:ホームページ用のURL
     answer=''
     if '入部' in text:
-        answer+='こちらから登録をお願いします.'+ url[1]
+        answer+='こちらから登録をお願いします。{}\n'.format(url[1])
     if '質問' in text:
-        answer+='質問はこちらからお願いします。'+url[0]
-    if 'ホーム' in text:
-        answer+='ホームページはこちらからお願いします。'+url[2]
+        answer+='質問はこちらからお願いします。\n'.format(url[0])
     if 'DENX' in text:
-        answer+='DENXはこちら'+url[3]
+        answer+='DENXはこちら。{}\n'.format(+url[3])
+    if 'ホーム' in text:
+        answer+='ホームページはこちらからお願いします。{}\n'.format(url[2])
     else:
         answer='すいません、お答えできません。'
     return answer

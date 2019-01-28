@@ -24,15 +24,17 @@ handler = WebhookHandler(YOUR_CHANNEL_SECRET)
 
 #データを取得して、URLを返還する。その後、
 def AnswerText(text):
-    url=['a','b']
+    url=['a','b','line://app/1598486025-a8Axq2rw']
     # 0:質問用のURL、1: 入部登録用のURL 
-    answer='スイマセン.こちらからは答えられません.'
-    if '入部' and '質問' in text:
-      answer='質問こちらから.'+url[0]+'<br>また,入会はこちらから登録をお願いします.'+url[1]
-    elif '入部' in text:
-        answer='こちらから登録をお願いします.'+ url[1]
-    elif '質問' in text:
-        answer='質問はこちらからお願いします。'+url[0]
+    answer=''
+    if '入部' in text:
+        answer+='こちらから登録をお願いします.'+ url[1]
+    if '質問' in text:
+        answer+='質問はこちらからお願いします。'+url[0]
+    if 'ホーム' in text:
+        answer+='ホームページはこちらからお願いします。'+url[2]
+    else:
+        answer='すいません、お答えできません。'
     return answer
 
 

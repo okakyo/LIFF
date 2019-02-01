@@ -30,6 +30,7 @@ handler = WebhookHandler(YOUR_CHANNEL_SECRET)
 #データを取得して、URLを返還する。その後、
 def AnswerText(text):
     url=['line://app/1598486025-dj85Dypj','b','line://app/1598486025-a8Axq2rw','line://app/1598486025-g0OAW9DM']
+    # 0:質問用のURL、1: 入部登録用のURL 2:ホームページ用のURL
     answer=''
     if '入部' in text:
         answer+='こちらから登録をお願いします。\n{}\n'.format(url[1])
@@ -71,6 +72,7 @@ def handle_message(event):
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text=text))
+
 
 if __name__ == "__main__":
 #    app.run()

@@ -1,5 +1,6 @@
 from flask import Flask, request, abort,render_template
 import os,json
+import subprocess
 import requests
 from bs4 import BeautifulSoup
 from linebot import (
@@ -10,13 +11,11 @@ from linebot.exceptions import (
 )
 from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage,
-    LocationMessage,LocationSendMessage,BeaconEvent,
-    VideoMessage,AudioMessage,ImageMessage,
+    BeaconEvent,QuickReply,QuickReplyButton,
     TemplateSendMessage,ButtonsTemplate,
-    StickerMessage,StickerSendMessage,FollowEvent,UnfollowEvent,
-    JoinEvent,LeaveEvent,CarouselTemplate,CarouselColumn,PostbackEvent
-
+    CarouselTemplate,CarouselColumn,PostbackEvent,MessageAction,
 )
+
 
 app = Flask(__name__)
 
@@ -38,8 +37,8 @@ def AnswerText(text):
         answer+='LIFFを起動します。\n{}\n'.format(url[0])
     elif text=='DENX':
         answer+='DENXはこちら。\n{}\n'.format(url[3])
-    elif text=='ホームページ':
-        answer+='ホームページはこちらからお願いします。\n{}\n'.format(url[2])
+    elif text=='使い方':
+        answer+='使い方はこちらで確認できます。\n{}\n'.format(url[2])
     else:
         answer='すいません、お答えできません。'
     print(answer)
@@ -68,12 +67,20 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    text=event.message.text
-    text=AnswerText(text)
+    questions=['入部','LIFF','DENX','使い方']
+    items=[QuickReplyButton(action=MessageAction(label=f"{question}",text=f"{question}")) for question in questions]
+    orders=TextSendMessage(text="何かございますか？",quick_reply=QuickReply(items=items))
     line_bot_api.reply_message(
-        event.reply_token,
-        TextSendMessage(text=text))
+        event.reply_token,messages=orders)
 
+@handler.add(PostbackEvent)
+def hander_postback(event):
+    pass
+
+@handler.add(BeaconEvent)
+def handle_beacon(event):
+    line_bot_api.reply_message(event.reply_token,
+    TextSendMessage(text='ビーコンを認知しました. hwid='+event.beacon.hwid))
 
 if __name__ == "__main__":
 #    app.run()

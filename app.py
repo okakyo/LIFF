@@ -76,7 +76,7 @@ def handle_message(event):
 def hander_postback(event):
     text=event.postback.data
     answer=AnswerText(text)
-    line_bot_api.push_message(event.reply_token,TextMessage(text=answer))
+    line_bot_api.push_message(event.source.user_id,TextMessage(text=answer))
 
 @handler.add(BeaconEvent)
 def handle_beacon(event):

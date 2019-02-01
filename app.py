@@ -73,10 +73,6 @@ def handle_message(event):
         event.reply_token,
         TextSendMessage(text=text))
 
-@handler.add()
-def Rich_Menu(event):
-    pass
-
 if __name__ == "__main__":
 #    app.run()
     port = int(os.getenv("PORT"))

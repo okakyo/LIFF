@@ -69,7 +69,7 @@ def handle_message(event):
     questions=['入部','LIFF','DENX','使い方']
     items=[QuickReplyButton(action=MessageAction(label=f"{question}",text=f"{question}")) for question in questions]
     orders=TextSendMessage(text="何かございますか？",quick_reply=QuickReply(items=items))
-    line_bot_api.push_message(event.reply_token,messages=orders)
+    line_bot_api.reply_message(event.reply_token,messages=orders)
 
 @handler.add(PostbackEvent)
 def hander_postback(event):

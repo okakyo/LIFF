@@ -70,7 +70,10 @@ def handle_message(event):
     questions=['入部','LIFF','DENX','使い方']
     items=[QuickReplyButton(action=PostbackAction(label=f"{question}",data=f"{question}")) for question in questions]
     orders=TextSendMessage(text="何かございますか？",quick_reply=QuickReply(items=items))
-    line_bot_api.reply_message(event.reply_token,messages=orders)
+    if(event.message.text=='オーダー'):
+        line_bot_api.reply_message(event.reply_token,messages=orders)
+    else:
+        line_bot_api.reply_message(event.reply_token,TextMessage(text='DENXに用がある方は、「オーダー」と入力してください。'))
 
 @handler.add(PostbackEvent)
 def hander_postback(event):

@@ -10,6 +10,11 @@ from linebot.exceptions import (
 )
 from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage,
+    LocationMessage,LocationSendMessage,BeaconEvent,
+    VideoMessage,AudioMessage,ImageMessage,
+    TemplateSendMessage,ButtonsTemplate,
+    StickerMessage,StickerSendMessage,FollowEvent,UnfollowEvent,
+    JoinEvent,LeaveEvent,CarouselTemplate,CarouselColumn,PostbackEvent
 
 )
 
@@ -24,13 +29,13 @@ handler = WebhookHandler(YOUR_CHANNEL_SECRET)
 
 #データを取得して、URLを返還する。その後、
 def AnswerText(text):
-    url=['a','b','line://app/1598486025-a8Axq2rw','line://app/1598486025-g0OAW9DM']
+    url=['line://app/1598486025-dj85Dypj','b','line://app/1598486025-a8Axq2rw','line://app/1598486025-g0OAW9DM']
     # 0:質問用のURL、1: 入部登録用のURL 2:ホームページ用のURL
     answer=''
     if '入部' in text:
         answer+='こちらから登録をお願いします。\n{}\n'.format(url[1])
-    if '質問' in text:
-        answer+='質問はこちらからお願いします。\n{}\n'.format(url[0])
+    if 'LIFF' in text:
+        answer+='LIFFを起動します。\n{}\n'.format(url[0])
     if 'DENX' in text:
         answer+='DENXはこちら。\n{}\n'.format(url[3])
     if 'ホーム' in text:
@@ -67,6 +72,10 @@ def handle_message(event):
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text=text))
+
+@handler.add()
+def Rich_Menu(event):
+    pass
 
 if __name__ == "__main__":
 #    app.run()

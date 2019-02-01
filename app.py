@@ -31,16 +31,18 @@ handler = WebhookHandler(YOUR_CHANNEL_SECRET)
 def AnswerText(text):
     url=['line://app/1598486025-dj85Dypj','b','line://app/1598486025-a8Axq2rw','line://app/1598486025-g0OAW9DM']
     answer=''
-    if (text=='入部'):
+    print(text)
+    if text=='入部':
         answer+='こちらから登録をお願いします。\n{}\n'.format(url[1])
-    if (text=='LIFF'):
+    if text=='LIFF':
         answer+='LIFFを起動します。\n{}\n'.format(url[0])
-    if (text=='DENX'):
+    if text=='DENX':
         answer+='DENXはこちら。\n{}\n'.format(url[3])
-    if (text=='ホームページ'):
+    if text=='ホームページ':
         answer+='ホームページはこちらからお願いします。\n{}\n'.format(url[2])
     else:
         answer='すいません、お答えできません。'
+    print(answer)
     return answer
 
 

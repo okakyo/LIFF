@@ -30,7 +30,6 @@ handler = WebhookHandler(YOUR_CHANNEL_SECRET)
 def AnswerText(text):
     url=['line://app/1598486025-dj85Dypj','b','line://app/1598486025-a8Axq2rw','line://app/1598486025-g0OAW9DM']
     answer=''
-    print(text)
     if text=='入部':
         answer+='こちらから登録をお願いします。\n{}\n'.format(url[1])
     elif text=='LIFF':
@@ -70,12 +69,15 @@ def handle_message(event):
     questions=['入部','LIFF','DENX','使い方']
     items=[QuickReplyButton(action=MessageAction(label=f"{question}",text=f"{question}")) for question in questions]
     orders=TextSendMessage(text="何かございますか？",quick_reply=QuickReply(items=items))
-    line_bot_api.reply_message(
+    line_bot_api.push_message(
         event.reply_token,messages=orders)
 
 @handler.add(PostbackEvent)
 def hander_postback(event):
-    pass
+    reply_token=event.reply_token
+    text=event.quick_reply.text
+    answer=AnswerText(text)
+    line_bot_api.push_message(reply_token,TextMessage(text=answer))
 
 @handler.add(BeaconEvent)
 def handle_beacon(event):

@@ -14,6 +14,7 @@ from linebot.models import (
     BeaconEvent,QuickReply,QuickReplyButton,
     TemplateSendMessage,ButtonsTemplate,
     CarouselTemplate,CarouselColumn,PostbackEvent,MessageAction,
+    PostbackAction
 )
 
 
@@ -67,17 +68,15 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     questions=['入部','LIFF','DENX','使い方']
-    items=[QuickReplyButton(action=MessageAction(label=f"{question}",text=f"{question}")) for question in questions]
+    items=[QuickReplyButton(action=PostbackAction(label=f"{question}",data=f"{question}")) for question in questions]
     orders=TextSendMessage(text="何かございますか？",quick_reply=QuickReply(items=items))
     line_bot_api.reply_message(event.reply_token,messages=orders)
 
 @handler.add(PostbackEvent)
 def hander_postback(event):
-    reply_token=event.reply_token
-    text=event.quick_reply.text
-    print(text)
+    text=event.postback.data
     answer=AnswerText(text)
-    line_bot_api.push_message(reply_token,TextMessage(text=answer))
+    line_bot_api.push_message(event.reply_token,TextMessage(text=answer))
 
 @handler.add(BeaconEvent)
 def handle_beacon(event):

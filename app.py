@@ -34,11 +34,11 @@ def AnswerText(text):
     print(text)
     if text=='入部':
         answer+='こちらから登録をお願いします。\n{}\n'.format(url[1])
-    if text=='LIFF':
+    elif text=='LIFF':
         answer+='LIFFを起動します。\n{}\n'.format(url[0])
-    if text=='DENX':
+    elif text=='DENX':
         answer+='DENXはこちら。\n{}\n'.format(url[3])
-    if text=='ホームページ':
+    elif text=='ホームページ':
         answer+='ホームページはこちらからお願いします。\n{}\n'.format(url[2])
     else:
         answer='すいません、お答えできません。'

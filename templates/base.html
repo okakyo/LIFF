@@ -11,19 +11,19 @@
     <title>Hello</title>
 </head>
 <body>
-    <header>
-        <div>
-            <div>
-                <h1>{% block title %}{% endblock %}</h1>
-            </div>
-            <div>
-                <nav>
-                    <li><a href="/">Top</a></li>
-                </nav>
-            </div>
-        </div>
-    </header>
     <div class="container-fluid">
+        <header class="row">
+            <div>
+                <div>
+                    <h1>{% block title %}{% endblock %}</h1>
+                </div>
+                <div>
+                    <nav>
+                        <li><a href="/">Top</a></li>
+                    </nav>
+                </div>
+            </div>
+        </header>
     {%block content%}
     {% endblock %}
     </div>

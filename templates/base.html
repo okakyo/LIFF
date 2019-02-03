@@ -12,7 +12,8 @@
 </head>
 <body>
     <div class="container-fluid">
-        <header>
+        <div class="row">
+            <header>
             <div class="row">
                 <h1>{% block title %}{% endblock %}</h1>
             </div>
@@ -20,7 +21,8 @@
                 <nav>
                     <li><a href="/">Top</a></li>
                 </nav>
-        </header>
+            </header>
+    </div>
     {%block content%}
     {% endblock %}
     </div>

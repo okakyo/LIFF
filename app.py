@@ -76,7 +76,7 @@ def handle_message(event):
 
     elif(event.message.text=='リスト'):
          buttons_template = ButtonsTemplate(
-            title='My buttons sample',text='Hello, my buttons',thumbnail_image_url='/static/images/denx.png',actions=[
+            title='My buttons sample',text='Hello, my buttons',thumbnail_image_url='https://denx.jp/wp-content/uploads/2018/04/cropped-DENXバナー2-1-1.png',actions=[
                 URIAction(label='ホームページ', uri='https://denx.jp'),
             ])
          template_message = TemplateSendMessage(alt_text='Buttons alt text', template=buttons_template)

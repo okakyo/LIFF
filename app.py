@@ -76,9 +76,10 @@ def handle_message(event):
 
     elif(event.message.text=='リスト'):
         button_template=ButtonsTemplate(
-            title='DENX',
             thumbnail_image_url='/static/img/XMLID_1_.png',
-            actions=[URIAction(label="ホームページ",uri="https://denx.jp/")])
+            title='DENX',
+            actions=[URIAction(label="ホームページ",uri="https://denx.jp/")]
+        )
         template=TemplateSendMessage(alt_text='Hello',template=button_template)
         line_bot_api.reply_message(event.reply_token,messages=template)
         

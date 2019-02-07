@@ -76,7 +76,7 @@ def handle_message(event):
     elif(event.message.text=='リスト'):
         button_template=ButtonsTemplate(
             title='DENX',
-            thumbnail_image_url='/static/img/XMLID_1_.png'
+            thumbnail_image_url='/static/img/XMLID_1_.png',
             actions=[
             URIAction(label="ホームページ",uri="https://denx.jp/"),
         ])

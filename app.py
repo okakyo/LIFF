@@ -82,9 +82,8 @@ def handle_message(event):
                 PostbackAction(label='ping with text', data='ping', text='ping'),
                 MessageAction(label='Translate Rice', text='米')
             ])
-        template_message = TemplateSendMessage(
-            alt_text='Buttons alt text', template=buttons_template)
-        line_bot_api.reply_message(event.reply_token, template_message)
+         template_message = TemplateSendMessage(alt_text='Buttons alt text', template=buttons_template)
+         line_bot_api.reply_message(event.reply_token, template_message)
     else:
         line_bot_api.reply_message(event.reply_token,TextMessage(text='DENXに用がある方は、「オーダー」と入力してください。'))
 

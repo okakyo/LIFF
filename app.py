@@ -14,7 +14,7 @@ from linebot.models import (
     BeaconEvent,QuickReply,QuickReplyButton,
     TemplateSendMessage,ButtonsTemplate,
     CarouselTemplate,CarouselColumn,PostbackEvent,MessageAction,
-    PostbackAction
+    PostbackAction,LocationAction
 )
 
 
@@ -68,10 +68,22 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     questions=['入部','LIFF','DENX','使い方']
-    items=[QuickReplyButton(action=PostbackAction(label=f"{question}",data=f"{question}")) for question in questions]
-    orders=TextSendMessage(text="何かございますか？",quick_reply=QuickReply(items=items))
+   
     if(event.message.text=='オーダー'):
+        items=[QuickReplyButton(action=PostbackAction(label=f"{question}",data=f"{question}")) for question in questions]
+        orders=TextSendMessage(text="何かございますか？",quick_reply=QuickReply(items=items))
         line_bot_api.reply_message(event.reply_token,messages=orders)
+    elif(event.message.text=='リスト'){
+        button_template=ButtonsTemplate(
+            title='DENX',
+            thumbnail_image_url='/static/img/XMLID_1_.png'
+            actions=[
+            URIAction(label="ホームページ",uri="https://denx.jp/"),
+        ])
+        template=TemplateSendMessage(alt_text='Hello',template=button_template)
+        line_bot_api.reply_message(event.reply_token,template)
+        pass
+    }
     else:
         line_bot_api.reply_message(event.reply_token,TextMessage(text='DENXに用がある方は、「オーダー」と入力してください。'))
 
@@ -81,10 +93,6 @@ def hander_postback(event):
     answer=AnswerText(text)
     line_bot_api.push_message(event.source.user_id,TextMessage(text=answer))
 
-@handler.add(BeaconEvent)
-def handle_beacon(event):
-    line_bot_api.reply_message(event.reply_token,
-    TextSendMessage(text='ビーコンを認知しました. hwid='+event.beacon.hwid))
 
 if __name__ == "__main__":
 #    app.run()

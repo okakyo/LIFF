@@ -73,13 +73,12 @@ def handle_message(event):
         items=[QuickReplyButton(action=PostbackAction(label=f"{question}",data=f"{question}")) for question in questions]
         orders=TextSendMessage(text="何かございますか？",quick_reply=QuickReply(items=items))
         line_bot_api.reply_message(event.reply_token,messages=orders)
+
     elif(event.message.text=='リスト'):
         button_template=ButtonsTemplate(
             title='DENX',
             thumbnail_image_url='/static/img/XMLID_1_.png',
-            actions=[
-            URIAction(label="ホームページ",uri="https://denx.jp/"),
-        ])
+            actions=[URIAction(label="ホームページ",uri="https://denx.jp/")])
         template=TemplateSendMessage(alt_text='Hello',template=button_template)
         line_bot_api.reply_message(event.reply_token,template)
         

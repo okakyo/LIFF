@@ -14,7 +14,7 @@ from linebot.models import (
     BeaconEvent,QuickReply,QuickReplyButton,
     TemplateSendMessage,ButtonsTemplate,
     CarouselTemplate,CarouselColumn,PostbackEvent,MessageAction,
-    PostbackAction,LocationAction
+    PostbackAction,URIAction
 )
 
 

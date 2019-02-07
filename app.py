@@ -75,11 +75,7 @@ def handle_message(event):
         line_bot_api.reply_message(event.reply_token,messages=orders)
 
     elif(event.message.text=='リスト'):
-        button_template=ButtonsTemplate(
-            thumbnail_image_url='/static/img/XMLID_1_.png',
-            title='DENX',
-            text='DENXについての詳細',
-            actions=[URIAction(label="ホームページ",uri="https://denx.jp/")]
+        button_template=ButtonsTemplate(thumbnail_image_url='/static/img/XMLID_1_.png',title='DENX',actions=[URIAction(label="ホームページ",uri="https://denx.jp/")]
         )
         template=TemplateSendMessage(alt_text='Hello',template=button_template)
         line_bot_api.reply_message(event.reply_token,messages=template)

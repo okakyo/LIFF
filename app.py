@@ -75,9 +75,9 @@ def handle_message(event):
         line_bot_api.reply_message(event.reply_token,messages=orders)
 
     elif(event.message.text=='リスト'):
-        button_template=ButtonsTemplate(title='DENX',actions=[URIAction(label="ホームページ",uri="https://denx.jp/")])
+        button_template=ButtonsTemplate(title='DENX',actions=URIAction(label='ホームページ',uri='https://denx.jp'))
         template=TemplateSendMessage(alt_text='Hello',template=button_template)
-        line_bot_api.reply_message(event.reply_token,messages=template)
+        line_bot_api.reply_message(event.reply_token,template)
         
     else:
         line_bot_api.reply_message(event.reply_token,TextMessage(text='DENXに用がある方は、「オーダー」と入力してください。'))

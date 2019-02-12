@@ -77,7 +77,7 @@ def handle_message(event):
          buttons_template = ButtonsTemplate(
             title='My buttons sample',text='Hello, my buttons',thumbnail_image_url="https://denx.jp/wp-content/uploads/2018/04/cropped-DENXバナー2-1-1.png",actions=[
                 URIAction(label='ホームページ', uri='https://denx.jp'),
-                LocationAction()
+                
             ])
          template_message = TemplateSendMessage(alt_text='Buttons alt text', template=buttons_template)
          line_bot_api.reply_message(event.reply_token, template_message)

@@ -76,10 +76,9 @@ def handle_message(event):
     elif(event.message.text=='リスト'):
          buttons_template = ButtonsTemplate(
             title='My buttons sample',text='Hello, my buttons',thumbnail_image_url="https://denx.jp/wp-content/uploads/2018/04/cropped-DENXバナー2-1-1.png",actions=[
-                URIAction(label='ホームページ', uri='https://denx.jp'),
-                
+                URIAction(label='ホームページ', uri='https://denx.jp')
             ])
-         template_message = TemplateSendMessage(alt_text='Buttons alt text', template=buttons_template)
+         template_message = TemplateSendMessage(alt_text='DENXサイト', template=buttons_template)
          line_bot_api.reply_message(event.reply_token, template_message)
     else:
         line_bot_api.reply_message(event.reply_token,TextMessage(text='DENXに用がある方は、「オーダー」と入力してください。'))

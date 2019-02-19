@@ -27,6 +27,7 @@ line_bot_api = LineBotApi(YOUR_CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(YOUR_CHANNEL_SECRET)
 
 #データを取得して、URLを返還する。その後、
+"""
 def AnswerText(text):
     url=['line://app/1598486025-dj85Dypj','b','line://app/1598486025-a8Axq2rw','line://app/1598486025-g0OAW9DM']
     answer=''
@@ -42,7 +43,9 @@ def AnswerText(text):
         answer='すいません、お答えできません。'
     print(answer)
     return answer
-
+"""
+def Answer(text):
+    if text==''
 
 @app.route("/")
 def hello_world():
@@ -66,8 +69,8 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    questions=['入部','LIFF','DENX','使い方']
-   
+    foods=['肉まん','たこ焼き','串カツ',]
+    questions=['作り方','食べに行く','デリバリー']
     if(event.message.text=='オーダー'):
         items=[QuickReplyButton(action=PostbackAction(label=f"{question}",data=f"{question}")) for question in questions]
         orders=TextSendMessage(text="何かございますか？",quick_reply=QuickReply(items=items))
@@ -80,13 +83,17 @@ def handle_message(event):
             ])
          template_message = TemplateSendMessage(alt_text='DENXサイト', template=buttons_template)
          line_bot_api.reply_message(event.reply_token, template_message)
+
+    elif(event.message.text=='見下ーげてーごらん'):
+        line_bot_api.reply_message(event.reply_token,TextMessage('うわっ！！'))
+
     else:
         line_bot_api.reply_message(event.reply_token,TextMessage(text='DENXに用がある方は、「オーダー」と入力してください。'))
 
 @handler.add(PostbackEvent)
 def hander_postback(event):
     text=event.postback.data
-    answer=AnswerText(text)
+    answer=Answer(text)
     line_bot_api.push_message(event.source.user_id,TextMessage(text=answer))
 
 

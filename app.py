@@ -27,22 +27,6 @@ line_bot_api = LineBotApi(YOUR_CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(YOUR_CHANNEL_SECRET)
 
 #データを取得して、URLを返還する。その後、
-def AnswerText(text):
-    url=['line://app/1598486025-dj85Dypj','b','line://app/1598486025-a8Axq2rw','line://app/1598486025-g0OAW9DM']
-    answer=''
-    if text=='入部':
-        answer+='こちらから登録をお願いします。\n{}\n'.format(url[1])
-    elif text=='LIFF':
-        answer+='LIFFを起動します。\n{}\n'.format(url[0])
-    elif text=='DENX':
-        answer+='DENXはこちら。\n{}\n'.format(url[3])
-    elif text=='使い方':
-        answer+='使い方はこちらで確認できます。\n{}\n'.format(url[2])
-    else:
-        answer='すいません、お答えできません。'
-    print(answer)
-    return answer
-
 
 @app.route("/")
 def hello_world():
@@ -66,11 +50,11 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    questions=['作り方','お店','お土産']
+    questions=['作り方','お店','お土産','飴ちゃん']
    
     if(event.message.text=='オーダー'):
         items=[QuickReplyButton(action=PostbackAction(label=f"{question}",data=f"{question}")) for question in questions]
-        orders=TextSendMessage(text="何かございますか？",quick_reply=QuickReply(items=items))
+        orders=TextSendMessage(text="何する？",quick_reply=QuickReply(items=items))
         line_bot_api.reply_message(event.reply_token,messages=orders)
 
     elif(event.message.text=='リスト'):
@@ -80,15 +64,21 @@ def handle_message(event):
             ])
          template_message = TemplateSendMessage(alt_text='DENXサイト', template=buttons_template)
          line_bot_api.reply_message(event.reply_token, template_message)
-    else:
-        line_bot_api.reply_message(event.reply_token,TextMessage(text='DENXに用がある方は、「オーダー」と入力してください。'))
 
 @handler.add(PostbackEvent)
 def hander_postback(event):
     text=event.postback.data
-    answer=AnswerText(text)
-    line_bot_api.push_message(event.source.user_id,TextMessage(text=answer))
-
+    if text=='飴ちゃん':
+        line_bot_api.push_message(event.source.user_id,messages=ImageSendMessage(
+            original_content_url='https://1.bp.blogspot.com/-ZELov-QvHaU/UVWMfIiV3bI/AAAAAAAAPIM/xxWcxLdHrwk/s1600/candy.png',
+            preview_image_url='https://1.bp.blogspot.com/-ZELov-QvHaU/UVWMfIiV3bI/AAAAAAAAPIM/xxWcxLdHrwk/s1600/candy.png'
+        ))
+    elif text=='お土産':
+        pass
+    elif text=='作り方':
+        pass
+    elif text=='お店':
+        pass
 
 if __name__ == "__main__":
 #    app.run()

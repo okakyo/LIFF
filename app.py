@@ -14,7 +14,7 @@ from linebot.models import (
     BeaconEvent,QuickReply,QuickReplyButton,
     TemplateSendMessage,ButtonsTemplate,
     CarouselTemplate,CarouselColumn,PostbackEvent,MessageAction,
-    PostbackAction,URIAction,LocationAction
+    PostbackAction,URIAction,LocationAction,ImageMessage,ImageSendMessage
 )
 
 app = Flask(__name__)
@@ -55,7 +55,7 @@ def handle_message(event):
     if(event.message.text=='オーダー'):
         items=[QuickReplyButton(action=PostbackAction(label=f"{question}",data=f"{question}")) for question in questions]
         orders=TextSendMessage(text="何する？",quick_reply=QuickReply(items=items))
-        line_bot_api.reply_message(event.reply_token,messages=orders)
+        line_bot_api.reply_message(event.reply_token,messages=ord)
 
     elif(event.message.text=='リスト'):
          buttons_template = ButtonsTemplate(
@@ -69,7 +69,7 @@ def handle_message(event):
 def hander_postback(event):
     text=event.postback.data
     if text=='飴ちゃん':
-        line_bot_api.push_message(event.source.user_id,messages=ImageSendMessage(
+        line_bot_api.push_message(event.source.user_id,ImageSendMessage(
             original_content_url='https://1.bp.blogspot.com/-ZELov-QvHaU/UVWMfIiV3bI/AAAAAAAAPIM/xxWcxLdHrwk/s1600/candy.png',
             preview_image_url='https://1.bp.blogspot.com/-ZELov-QvHaU/UVWMfIiV3bI/AAAAAAAAPIM/xxWcxLdHrwk/s1600/candy.png'
         ))
@@ -79,6 +79,7 @@ def hander_postback(event):
         pass
     elif text=='お店':
         pass
+
 
 if __name__ == "__main__":
 #    app.run()

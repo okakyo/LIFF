@@ -50,7 +50,7 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    questions=['作り方','お店','お土産','飴ちゃん']
+    questions=['お店','作り方','お土産','飴ちゃん']
    
     if(event.message.text=='おばちゃーん'):
         items=[QuickReplyButton(action=PostbackAction(label=f"{question}",data=f"{question}")) for question in questions]

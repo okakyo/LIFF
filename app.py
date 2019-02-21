@@ -107,7 +107,7 @@ def handle_location(event):
     items=[QuickReplyButton(action=PostbackAction(label=f"{question}",data=f"{question}")) for question in questions]
     orders=TextSendMessage(text="どれにする？",quick_reply=QuickReply(items=items))
     line_bot_api.push_message(event.source.user_id,messages=orders)
-    line_bot_api.push_message(event.source.user_id,TextSendMessage(text='ごめん、ちょっと待ってな。'))
+    
     try:
         data=getFoodsInfo(wanna_eat,lat,lon)
         Address,Name=printFoodsInfo(data)
@@ -171,12 +171,16 @@ def hander_postback(event):
         #データの取得方法を探す。
     elif text=='串カツ':
         wanna_eat='串カツ'
+        line_bot_api.push_message(event.source.user_id,TextSendMessage(text='ごめん、ちょっと待ってな。'))
     elif text=='肉まん':
         wanna_eat='肉まん'
+        line_bot_api.push_message(event.source.user_id,TextSendMessage(text='ごめん、ちょっと待ってな。'))
     elif text=='お好み焼き':
         wanna_eat='お好み焼き'
+        line_bot_api.push_message(event.source.user_id,TextSendMessage(text='ごめん、ちょっと待ってな。'))
     elif text=='たこ焼き':
         wanna_eat='たこ焼き'
+        line_bot_api.push_message(event.source.user_id,TextSendMessage(text='ごめん、ちょっと待ってな。'))
     elif text=='ありがとう':
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text='おおきに'))               
 

@@ -106,7 +106,8 @@ def handle_location(event):
     questions=['たこ焼き','串カツ','お好み焼き','肉まん']
     items=[QuickReplyButton(action=PostbackAction(label=f"{question}",data=f"{question}")) for question in questions]
     orders=TextSendMessage(text="どれにする？",quick_reply=QuickReply(items=items))
-    line_bot_api.reply_message(event.reply_token,messages=orders)
+    line_bot_api.push_message(event.source.user_id,messages=orders)
+    line_bot_api.push_message(event.source.user_id,TextSendMessage(text='ごめん、ちょっと待ってな。'))
     try:
         data=getFoodsInfo(wanna_eat,lat,lon)
         Address,Name=printFoodsInfo(data)

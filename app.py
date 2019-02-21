@@ -22,11 +22,58 @@ app = Flask(__name__)
 #環境変数取得
 YOUR_CHANNEL_ACCESS_TOKEN = os.environ["YOUR_CHANNEL_ACCESS_TOKEN"]
 YOUR_CHANNEL_SECRET = os.environ["YOUR_CHANNEL_SECRET"]
+YOUR_API_KEYID=os.environ['YOUR_API_KEYID']
 
 line_bot_api = LineBotApi(YOUR_CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(YOUR_CHANNEL_SECRET)
 
 #データを取得して、URLを返還する。その後、
+
+
+#食べ物の情報をとってくる函数（ぐるなびAPI）
+#引数　　　fName：食べ物の名前
+#　　　　　fLat ：現在地の緯度
+#　　　　　fLon ：現在地の経度
+#return値 レストラン情報
+def getFoodsInfo(fName,fLat,fLon):
+  url = "https://api.gnavi.co.jp/RestSearchAPI/v3/"
+
+  params={}
+  params["keyid"] = YOUR_API_KEYID
+  params["freeword"]  = fName
+  params["latitude"]  = fLat
+  params["longitude"]  = fLon
+
+  #range=検索範囲の半径の大きさ(1~5)　10件以上見つかる最小の大きさを求める
+  for i in range(1,6):
+    params["range"]  = i
+    result = requests.get(url, params)
+    if(countHit(result.json())>=10):
+      break
+
+  print("range：%d" % i)
+  return result.json() 
+
+#ヒット件数を求める函数．レスポンスがエラー時の処理も行う．
+#引数　　　restInfo：ぐるなびAPIが返したレストラン情報
+#return値 ヒット件数
+def countHit(restInfo): 
+  return restInfo.get('total_hit_count', 0)
+
+#取得結果を表示する
+#引数　　　restInfo：ぐるなびAPIが返したレストラン情報
+#return値 void
+
+def printFoodsInfo(restInfo):
+  hitCnt=countHit(restInfo)
+  Address=[],Name=[]
+  for i in range(hitCnt):
+    if i==4:
+        break
+    if(get_data['address']):
+      Address.append(restInfo['rest'][i]['address'])
+      Name.append(restInfo['rest'][i]['name'])
+  return Address,Name
 
 @app.route("/")
 def hello_world():
@@ -69,7 +116,7 @@ def handle_message(event):
 def hander_postback(event):
     text=event.postback.data
     if text=='アメちゃん':
-        line_bot_api.push_message(event.source.user_id,ImageSendMessage(
+        line_bot_api.reply_message(event.reply_token,ImageSendMessage(
             original_content_url='https://1.bp.blogspot.com/-ZELov-QvHaU/UVWMfIiV3bI/AAAAAAAAPIM/xxWcxLdHrwk/s1600/candy.png',
             preview_image_url='https://1.bp.blogspot.com/-ZELov-QvHaU/UVWMfIiV3bI/AAAAAAAAPIM/xxWcxLdHrwk/s1600/candy.png'
         ))
@@ -78,17 +125,24 @@ def hander_postback(event):
              text='お土産ならここやな', actions=[
                 URIAction(label='お土産', uri='line://app/1598486025-lMb5nvo4'),
             ])
-        line_bot_api.push_message(event.source.user_id,TemplateSendMessage(alt_text='お土産',template=survenier))
+        line_bot_api.push_message(event.source.user_id,TemplateSendMessage(alt_text='作る',template=survenier))
     elif text=='作り方':
         how_to_make=ButtonsTemplate(
-             text='このホームページで見ながら作れるで。\n\n知らんけど。', actions=[
+             text='このホームページ通りにやったらできるで。\nしらんけど。', actions=[
                 URIAction(label='作り方', uri='https://cookpad.com/'),
             ])
         line_bot_api.push_message(event.source.user_id,TemplateSendMessage(alt_text='作り方',template=how_to_make))
     
     elif text=='お店':
         #検索ボットを利用
-        line_bot_api.push_message(event.source.user_id,TextSendMessage(text='ちょい待ち'))
+         line_bot_api.reply_message(event.reply_token,)
+         bcarousel_template = CarouselTemplate(columns=[
+            CarouselColumn(text='場所：f{address}', title='f{name}', actions=[
+                PostbackAction(label='ありがとう。', data='ありがとう。')
+            ]) for place,name in ])
+        template_message = TemplateSendMessage(
+            alt_text='Carousel alt text', template=carousel_template)
+        line_bot_api.push_message(event.source.user_id,template_message)
 
 if __name__ == "__main__":
 #    app.run()

@@ -11,7 +11,7 @@ def getFoodsInfo(fName,fLat,fLon):
   url = "https://api.gnavi.co.jp/RestSearchAPI/v3/"
 
   params={}
-  params["keyid"] = "cd2b9d834b7171aec5aaa5f615692ea3"
+  params["keyid"] = ""
   params["freeword"]  = fName
   params["latitude"]  = fLat
   params["longitude"]  = fLon

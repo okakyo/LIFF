@@ -27,6 +27,8 @@ YOUR_API_KEYID=os.environ['YOUR_API_KEYID']
 line_bot_api = LineBotApi(YOUR_CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(YOUR_CHANNEL_SECRET)
 
+wanna_eat='たこ焼き'
+
 #データを取得して、URLを返還する。その後、
 
 
@@ -70,7 +72,7 @@ def printFoodsInfo(restInfo):
   for i in range(hitCnt):
     if i==4:
         break
-    if(get_data['address']):
+    if(restInfo['rest'][i]['address']):
       Address.append(restInfo['rest'][i]['address'])
       Name.append(restInfo['rest'][i]['name'])
   return Address,Name
@@ -95,10 +97,30 @@ def callback():
 
     return 'OK'
 
+@handler.add(MessageAction,message=LocationAction)
+def handle_location(event):
+    global wanna_eat 
+    lat=event.message.latitude
+    lon=event.message.longitude
+    
+    questions=['たこ焼き','串カツ','お好み焼き','肉まん']
+    items=[QuickReplyButton(action=PostbackAction(label=f"{question}",data=f"{question}")) for question in questions]
+    orders=TextSendMessage(text="どれにする？",quick_reply=QuickReply(items=items))
+    line_bot_api.reply_message(event.reply_token,messages=orders)
+    
+    data=getFoodsInfo(wanna_eat,lat,lon)
+    Address,Name=printFoodsInfo(data)
+    carousel_template = CarouselTemplate(columns=[
+        CarouselColumn(text='場所：f{address}', title='f{name}', actions=[
+            PostbackAction(label='ありがとう。', data='ありがとう。')
+        ]) for place,name in zip(Address,Name)])
+    template_message = TemplateSendMessage(
+        alt_text='Carousel alt text', template=carousel_template)
+    line_bot_api.push_message(event.source.user_id,template_message)
+
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     questions=['お店','作り方','お土産','アメちゃん']
-   
     if(event.message.text=='おばちゃーん'):
         items=[QuickReplyButton(action=PostbackAction(label=f"{question}",data=f"{question}")) for question in questions]
         orders=TextSendMessage(text="どないしたん？",quick_reply=QuickReply(items=items))
@@ -112,8 +134,11 @@ def handle_message(event):
          template_message = TemplateSendMessage(alt_text='DENXサイト', template=buttons_template)
          line_bot_api.reply_message(event.reply_token, template_message)
 
+# 以下の handler は、改良してより短く記述すべき。
 @handler.add(PostbackEvent)
 def hander_postback(event):
+    global wanna_eat
+
     text=event.postback.data
     if text=='アメちゃん':
         line_bot_api.reply_message(event.reply_token,ImageSendMessage(
@@ -135,7 +160,6 @@ def hander_postback(event):
     
     elif text=='お店':
         #検索ボットを利用
-
         restaurant=ButtonsTemplate(
              text='今の場所から近いお店伝えるで。ええか？', actions=[
                 LocationAction(label='お願い'),
@@ -143,15 +167,16 @@ def hander_postback(event):
         template_message=TemplateSendMessage(alt_text='位置情報送信しますか？',template=restaurant)
         line_bot_api.reply_message(event.reply_token,template_message)
         #データの取得方法を探す。
-        print(line_bot_api.reply_message)
-        """
-        bcarousel_template = CarouselTemplate(columns=[
-            CarouselColumn(text='場所：f{address}', title='f{name}', actions=[
-                PostbackAction(label='ありがとう。', data='ありがとう。')
-            ]) for place,name in ])
-        template_message = TemplateSendMessage(
-            alt_text='Carousel alt text', template=carousel_template)
-        line_bot_api.push_message(event.source.user_id,template_message)"""
+    elif text=='串カツ':
+        wanna_eat='串カツ'
+    elif text=='肉まん':
+        wanna_eat='肉まん'
+    elif text=='お好み焼き':
+        wanna_eat='お好み焼き'
+    elif text=='たこ焼き':
+        wanna_eat='たこ焼き'
+    elif text=='ありがとう':
+        line_bot_api.reply_message(event.reply_token,TextSendMessage(text='おおきに'))               
 
 if __name__ == "__main__":
 #    app.run()

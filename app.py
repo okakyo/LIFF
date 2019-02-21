@@ -125,24 +125,33 @@ def hander_postback(event):
              text='お土産ならここやな', actions=[
                 URIAction(label='お土産', uri='line://app/1598486025-lMb5nvo4'),
             ])
-        line_bot_api.push_message(event.source.user_id,TemplateSendMessage(alt_text='作る',template=survenier))
+        line_bot_api.reply_message(event.reply_token,TemplateSendMessage(alt_text='お土産',template=survenier))
     elif text=='作り方':
         how_to_make=ButtonsTemplate(
              text='このホームページ通りにやったらできるで。\nしらんけど。', actions=[
                 URIAction(label='作り方', uri='https://cookpad.com/'),
             ])
-        line_bot_api.push_message(event.source.user_id,TemplateSendMessage(alt_text='作り方',template=how_to_make))
+        line_bot_api.reply_message(event.reply_token,TemplateSendMessage(alt_text='作り方',template=how_to_make))
     
     elif text=='お店':
         #検索ボットを利用
-         line_bot_api.reply_message(event.reply_token,)
-         bcarousel_template = CarouselTemplate(columns=[
+
+        restaurant=ButtonsTemplate(
+             text='今の場所から近いお店伝えるで。ええか？', actions=[
+                LocationAction(label='お願い'),
+            ])
+        template_message=TemplateSendMessage(alt_text='位置情報送信しますか？',template=restaurant)
+        line_bot_api.reply_message(event.reply_token,template_message)
+        #データの取得方法を探す。
+        print(line_bot_api.reply_message)
+        """
+        bcarousel_template = CarouselTemplate(columns=[
             CarouselColumn(text='場所：f{address}', title='f{name}', actions=[
                 PostbackAction(label='ありがとう。', data='ありがとう。')
             ]) for place,name in ])
         template_message = TemplateSendMessage(
             alt_text='Carousel alt text', template=carousel_template)
-        line_bot_api.push_message(event.source.user_id,template_message)
+        line_bot_api.push_message(event.source.user_id,template_message)"""
 
 if __name__ == "__main__":
 #    app.run()

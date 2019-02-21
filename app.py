@@ -107,16 +107,18 @@ def handle_location(event):
     items=[QuickReplyButton(action=PostbackAction(label=f"{question}",data=f"{question}")) for question in questions]
     orders=TextSendMessage(text="どれにする？",quick_reply=QuickReply(items=items))
     line_bot_api.reply_message(event.reply_token,messages=orders)
-    
-    data=getFoodsInfo(wanna_eat,lat,lon)
-    Address,Name=printFoodsInfo(data)
-    carousel_template = CarouselTemplate(columns=[
-        CarouselColumn(text='場所：f{address}', title='f{name}', actions=[
-            PostbackAction(label='ありがとう。', data='ありがとう。')
-        ]) for place,name in zip(Address,Name)])
-    template_message = TemplateSendMessage(
-        alt_text='Carousel alt text', template=carousel_template)
-    line_bot_api.push_message(event.source.user_id,template_message)
+    try:
+        data=getFoodsInfo(wanna_eat,lat,lon)
+        Address,Name=printFoodsInfo(data)
+        carousel_template = CarouselTemplate(columns=[
+            CarouselColumn(text='場所：f{address}', title='f{name}', actions=[
+                PostbackAction(label='ありがとう。', data='ありがとう。')
+            ]) for place,name in zip(Address,Name)])
+        template_message = TemplateSendMessage(
+            alt_text='Carousel alt text', template=carousel_template)
+        line_bot_api.push_message(event.source.user_id,template_message)
+    except:
+        line_bot_api.push_message(event.source.user_id,TextSendMessage(text='ごめん、ちょっとよく分からんわ。'))
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):

@@ -13,7 +13,7 @@ from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage,
     BeaconEvent,QuickReply,QuickReplyButton,
     TemplateSendMessage,ButtonsTemplate,
-    CarouselTemplate,CarouselColumn,PostbackEvent,MessageAction,LocationMessage
+    CarouselTemplate,CarouselColumn,PostbackEvent,MessageAction,LocationMessage,
     PostbackAction,URIAction,LocationAction,ImageMessage,ImageSendMessage
 )
 

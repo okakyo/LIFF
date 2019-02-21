@@ -13,7 +13,7 @@ from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage,
     BeaconEvent,QuickReply,QuickReplyButton,
     TemplateSendMessage,ButtonsTemplate,
-    CarouselTemplate,CarouselColumn,PostbackEvent,MessageAction,
+    CarouselTemplate,CarouselColumn,PostbackEvent,MessageAction,LocationMessage
     PostbackAction,URIAction,LocationAction,ImageMessage,ImageSendMessage
 )
 
@@ -97,7 +97,7 @@ def callback():
 
     return 'OK'
 
-@handler.add(MessageAction,message=LocationAction)
+@handler.add(MessageEvent,message=LocationMessage)
 def handle_location(event):
     global wanna_eat 
     lat=event.message.latitude
@@ -141,7 +141,6 @@ def handle_message(event):
 @handler.add(PostbackEvent)
 def hander_postback(event):
     global wanna_eat
-
     text=event.postback.data
     if text=='アメちゃん':
         line_bot_api.reply_message(event.reply_token,ImageSendMessage(

@@ -50,7 +50,7 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    questions=['お店','作り方','お土産','飴ちゃん']
+    questions=['お店','作り方','お土産','アメちゃん']
    
     if(event.message.text=='おばちゃーん'):
         items=[QuickReplyButton(action=PostbackAction(label=f"{question}",data=f"{question}")) for question in questions]
@@ -68,7 +68,7 @@ def handle_message(event):
 @handler.add(PostbackEvent)
 def hander_postback(event):
     text=event.postback.data
-    if text=='飴ちゃん':
+    if text=='アメちゃん':
         line_bot_api.push_message(event.source.user_id,ImageSendMessage(
             original_content_url='https://1.bp.blogspot.com/-ZELov-QvHaU/UVWMfIiV3bI/AAAAAAAAPIM/xxWcxLdHrwk/s1600/candy.png',
             preview_image_url='https://1.bp.blogspot.com/-ZELov-QvHaU/UVWMfIiV3bI/AAAAAAAAPIM/xxWcxLdHrwk/s1600/candy.png'
@@ -81,14 +81,14 @@ def hander_postback(event):
         line_bot_api.push_message(event.source.user_id,TemplateSendMessage(alt_text='お土産',template=survenier))
     elif text=='作り方':
         how_to_make=ButtonsTemplate(
-             text='このホームページ通りにやったらできるで。\nしらんけど。', actions=[
+             text='このホームページで見ながら作れるで。\n\n知らんけど。', actions=[
                 URIAction(label='作り方', uri='https://cookpad.com/'),
             ])
         line_bot_api.push_message(event.source.user_id,TemplateSendMessage(alt_text='作り方',template=how_to_make))
     
     elif text=='お店':
         #検索ボットを利用
-        pass
+        line_bot_api.push_message(event.source.user_id,TextSendMessage(text='ちょい待ち'))
 
 if __name__ == "__main__":
 #    app.run()

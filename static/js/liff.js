@@ -10,10 +10,14 @@ function handlerApp() {
     return;
 };
 function initializeApp() {
-    return;
+    liff.init(()=>initializeLiff(),error=>uiStatusError(makeErrorMsg(error),false));
 };
-function handlerApp() {
-    return;
+function initializeLiff() {
+    liff.initPlugins(['bluetooth']).then(()=>{
+       liffCheckaAvailablityAndDo(()=>liffRequestDevice());
+    }).catch(()=>{
+        uiStatusError(makeErrorMsg(error),false);
+    })
 };
 function handlerApp() {
     return;

@@ -64,7 +64,7 @@ function liffConnectToDevice(device){
         document.getElementById('device_id').innerText=device.id;
 
         uiToggleDeviceConnected(true);
-
+//getPrimaryService に UUID を引数として入力して使う。
         device.gatt.getPrimaryService(USER_SERVICE_UUID).then(service =>{
             liffGetUserService(service);
         }).catch(e =>{uiStatusError(makeErrorMsg(e),false);
@@ -93,9 +93,12 @@ function liffConnectToDevice(device){
 });
 }
 
+//以下の２つの関数が、デバイスから取得したデータをもとに、デバイスの操作を行う。
 function liffGetUserService(service){
-    service.gatt.getCharacteristic(USER_SERVICE_UUID).then().catch(e =>{uiStatusError(makeErrorMsg(e),false)})
-    service.gatt.getCharacteristic(USER_SERVICE_UUID).then().catch(e =>{uiStatusError(makeErrorMsg(e),false)})
+    service.gatt.getCharacteristic(USER_SERVICE_UUID).then(characteristic=>{
+        return characteristic.readValue();
+    }).catch(e =>{uiStatusError(makeErrorMsg(e),false)})
+    service.gatt.getCharacteristic(USER_SERVICE_UUID).then(characteristic=>{}).catch(e =>{uiStatusError(makeErrorMsg(e),false)})
 }
 function liffGetPSDIService(service){
     service.gatt.getCharacteristic(Characteristic_UUID).then().catch(e =>{uiStatusError(makeErrorMsg(e),false)})

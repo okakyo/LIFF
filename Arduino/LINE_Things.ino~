@@ -1,0 +1,22 @@
+#include<BLEDevice.h>
+#include<BLEUtils.h>
+#include<BLEServer.h>
+
+#define SERVICE_UUID "";
+#define CHARACTERISTIC_UUID "";
+#define DEVICE_NAME "CAR_1_FRONT";
+
+
+void  
+
+void setup() {
+  Serial.begin(115200);
+  BLE::init(DEVICE_NAME);
+  // put your setup code here, to run once:
+
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+
+}

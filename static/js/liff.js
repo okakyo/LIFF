@@ -6,7 +6,19 @@ window.onload = ()=>{
     initializeApp();
 };
 
-function handlerApp() {
+function TopButton() {
+    return;
+};
+function LeftButton() {
+    return;
+};
+function MiddleButton() {
+    return;
+};
+function RightButton() {
+    return;
+};
+function Basebutton() {
     return;
 };
 

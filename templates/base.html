@@ -23,8 +23,13 @@
             </nav>
         </header>
     <div class="container">
-    {%block content%}
-    {% endblock %}
+        <div id='loader'>
+            <img src="/static/images/loading.gif" alt="Loading...">
+        </div>
+        <div class="hidden">
+            {%block content%}
+            {% endblock %}
+        </div>
     </div>
 </body>
 

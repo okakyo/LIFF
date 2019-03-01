@@ -63,13 +63,15 @@ void setup(){
 void loop(){
 	delay(1000);
 	double dist;
-  uint8_t ans;
+  	uint8_t buff[2];
 	if(deviceConnected){
 		dist=CalcDistance();
-    ans=(uint8_t)dist;
+	        buff[0]=(int16_t)dist& 0xff;
+	        buff[1]=(int16_t)dist>> 8;
 		Serial.print("dist=");
 		Serial.println(dist);
-		pCharacteristic ->setValue(&ans,1);
+		pCharacteristic ->setValue(buff,sizeof(buff));
 		pCharacteristic ->notify();
+   delay(10);
 	}
 }

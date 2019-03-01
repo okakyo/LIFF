@@ -18,7 +18,7 @@ function MiddleButton() {
 function RightButton() {
     return;
 };
-function Basebutton() {
+function Bottombutton() {
     return;
 };
 
